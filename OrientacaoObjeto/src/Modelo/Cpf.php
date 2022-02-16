@@ -2,7 +2,7 @@
 
 namespace Alura\Banco\Modelo;
 
-class Cpf
+final class Cpf
 {
   private $numero;
 
@@ -21,7 +21,7 @@ class Cpf
     $this->numero = $numero;
   }
 
-  public function mostraCpf(): string //Getters
+  public function recuperaCpf(): string //Getters
   {
     return $this->numero;
   }
