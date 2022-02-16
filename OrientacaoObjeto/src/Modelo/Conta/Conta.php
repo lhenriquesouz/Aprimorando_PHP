@@ -5,7 +5,7 @@ namespace Alura\Banco\Modelo\Conta;
 //PRORIEDADES SEMPRE PRIVADAS - PRIVATE 
 //MÉTODOS PUBLICOS - PUBLIC
 
-class Conta
+abstract class Conta
 {
   //Definir dados da conta
   private $titular;
@@ -27,12 +27,14 @@ class Conta
 
   public function saca(float $valorASacar): void
   {
-    if ($valorASacar > $this->saldo) {
+    $tarifaDeSaque = $valorASacar * $this->percentualTarifa();
+    $valorSaque = $valorASacar + $tarifaDeSaque;
+    if ($valorSaque > $this->saldo) {
       echo "Saldo indisponível";
       return;
     }
 
-    $this->saldo -= $valorASacar;
+    $this->saldo -= $valorSaque;
   }
 
   public function deposita(float $valorADepositar): void
@@ -45,16 +47,6 @@ class Conta
     $this->saldo += $valorADepositar;
   }
 
-  public function transferir(float $valorATransferir, conta $contaDestino): void
-  {
-    if ($valorATransferir > $this->saldo) {
-      echo "Saldo indisponível";
-      return;
-    }
-
-    $this->saca($valorATransferir);
-    $contaDestino->deposita($valorATransferir);
-  }
 
   public function recuperaNomeTitular(): string
   {
@@ -76,6 +68,8 @@ class Conta
   {
     return self::$numeroDeContas;
   }
+
+  abstract protected function percentualTarifa() : float;//Toda classe que estender desta Classe COnta, teráo que implementar este método
 
 
 }
